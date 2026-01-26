@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8EC405FC1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Y8EC405FC1');
+    </script>
+    
+    <!-- META TAGS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NakedOnline – Browser Privacy Exposure Scanner | XORD Intelligence</title>
+    <meta name="description" content="See exactly what websites can extract from your browser. Canvas fingerprint, WebGL, audio fingerprint, WebRTC leaks, and more. Free privacy scanner by XORD.">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://xord.io/intelligence/naked-online.html">
+    <meta property="og:title" content="NakedOnline – Browser Privacy Exposure Scanner | XORD Intelligence">
+    <meta property="og:description" content="See exactly what websites can extract from your browser. Canvas fingerprint, WebGL, audio fingerprint, WebRTC leaks, and more. Free privacy scanner by XORD.">
+    <meta property="og:image" content="https://xord.io/sigil_xord.jpg">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NakedOnline – Browser Privacy Exposure Scanner | XORD Intelligence">
+    <meta name="twitter:description" content="See exactly what websites can extract from your browser. Canvas fingerprint, WebGL, audio fingerprint, WebRTC leaks, and more. Free privacy scanner by XORD.">
+    <meta name="twitter:image" content="https://xord.io/sigil_xord.jpg">
+    <!-- Favicon -->
+    <link rel="icon" href="https://xord.io/xord.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://xord.io/xord.ico" type="image/x-icon">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0a;
+            background-image: url('BK.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(26, 26, 26, 0.92);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0 30px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            color: #888888;
+            font-size: 1em;
+        }
+        
+        .subtitle span {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .mode-btn {
+            padding: 12px 30px;
+            border: 2px solid #444;
+            background: rgba(45, 45, 45, 0.8);
+            color: #888;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn:hover {
+            border-color: #666;
+        }
+        
+        .mode-btn.active {
+            border-color: #00ff88;
+            color: #00ff88;
+            background: rgba(26, 45, 26, 0.8);
+        }
+        
+        .mode-btn.advanced.active {
+            border-color: #ff4444;
+            color: #ff4444;
+            background: rgba(45, 26, 26, 0.8);
+        }
+        
+        .score-box {
+            background: rgba(45, 45, 45, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+        
+        .score-title {
+            font-size: 1.2em;
+            color: #888888;
+            margin-bottom: 10px;
+        }
+        
+        .score-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff4444;
+        }
+        
+        .score-desc {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        
+        .uniqueness {
+            background: rgba(13, 13, 13, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .section {
+            background: rgba(45, 45, 45, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .section.advanced-only {
+            display: none;
+            border-left: 3px solid #ff4444;
+        }
+        
+        .section.advanced-only .section-title {
+            color: #ff4444;
+        }
+        
+        .section-title {
+            color: #00ff88;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        
+        .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(51, 51, 51, 0.8);
+        }
+        
+        .item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-label {
+            color: #FFD700;
+            font-weight: 500;
+        }
+        
+        .item-value {
+            color: #ffffff;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        
+        .item-value.danger {
+            color: #ff4444;
+        }
+        
+        .item-value.warning {
+            color: #ffaa00;
+        }
+        
+        .item-value.safe {
+            color: #00ff88;
+        }
+        
+        .warning-box {
+            background: rgba(61, 45, 45, 0.8);
+            border-left: 4px solid #ff4444;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .warning-box h3 {
+            color: #ff4444;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box ul {
+            margin-left: 20px;
+            color: #ffaa00;
+        }
+        
+        .warning-box li {
+            margin: 5px 0;
+        }
+        
+        .recommendations {
+            background: rgba(45, 61, 45, 0.8);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .recommendations h3 {
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        
+        .recommendations ul {
+            margin-left: 20px;
+        }
+        
+        .recommendations li {
+            margin: 5px 0;
+            color: #00ff88;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0 10px 0;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            margin-top: 20px;
+        }
+        
+        .footer-brand {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .footer-text {
+            color: #888888;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+        
+        #results {
+            display: none;
+        }
+        
+        .scan-btn {
+            background: #00ff88;
+            color: #1a1a1a;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .scan-btn:hover {
+            background: #00cc6a;
+            transform: scale(1.02);
+        }
+        
+        .scan-btn:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .scan-btn.advanced-scan {
+            background: #ff4444;
+        }
+        
+        .scan-btn.advanced-scan:hover {
+            background: #cc3333;
+        }
+        
+        .deep-naked-banner {
+            display: none;
+            background: linear-gradient(90deg, rgba(45, 26, 26, 0.9), rgba(61, 26, 26, 0.9));
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .deep-naked-banner h3 {
+            color: #ff4444;
+            margin-bottom: 10px;
+        }
+        
+        .deep-naked-banner p {
+            color: #ffaa00;
+            font-size: 0.9em;
+        }
+        
+        canvas {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .mode-toggle {
+                flex-direction: column;
+            }
+            
+            .mode-btn {
+                width: 100%;
+            }
+            
+            .item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .item-value {
+                text-align: left;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>NAKEDONLINE</h1>
+            <p class="subtitle">Privacy Exposure Scanner by <span>XORD</span></p>
+        </header>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" id="basicModeBtn" onclick="setMode('basic')">BASIC MODE</button>
+            <button class="mode-btn advanced" id="advancedModeBtn" onclick="setMode('advanced')">DEEP NAKED MODE</button>
+        </div>
+        
+        <div id="deepNakedBanner" class="deep-naked-banner">
+            <h3>⚠ DEEP NAKED MODE ENABLED</h3>
+            <p>Extracting ALL possible fingerprinting vectors including WebRTC leaks, speech voices, media devices, and timing attacks.</p>
+        </div>
+        
+        <div id="loading" class="loading">
+            <h2 id="loadingText">Ready to scan your browser</h2>
+            <p>This runs entirely in your browser. No data is sent anywhere.</p>
+            <br>
+            <button id="startBtn" class="scan-btn" onclick="runScan()">SCAN MY EXPOSURE</button>
+        </div>
+        
+        <div id="results">
+            <div class="score-box">
+                <div class="score-title">EXPOSURE SCORE</div>
+                <div class="score-value" id="score">--</div>
+                <div class="score-desc" id="score-desc">Calculating...</div>
+                <div class="uniqueness" id="uniqueness"></div>
+            </div>
+            
+            <div class="warning-box">
+                <h3>⚠ WHAT THIS MEANS</h3>
+                <ul>
+                    <li>Every website you visit can see ALL of this information</li>
+                    <li>Combined, these data points create a UNIQUE FINGERPRINT</li>
+                    <li>You can be tracked WITHOUT cookies</li>
+                    <li>Incognito/Private mode does NOT hide this</li>
+                    <li>VPNs do NOT hide most of this</li>
+                </ul>
+            </div>
+            
+            <!-- BASIC MODE SECTIONS -->
+            <div class="section" id="network-section">
+                <div class="section-title">NETWORK EXPOSURE</div>
+                <div id="network-data"></div>
+            </div>
+            
+            <div class="section" id="browser-section">
+                <div class="section-title">BROWSER FINGERPRINT</div>
+                <div id="browser-data"></div>
+            </div>
+            
+            <div class="section" id="hardware-section">
+                <div class="section-title">HARDWARE FINGERPRINT</div>
+                <div id="hardware-data"></div>
+            </div>
+            
+            <div class="section" id="canvas-section">
+                <div class="section-title">CANVAS FINGERPRINT</div>
+                <div id="canvas-data"></div>
+            </div>
+            
+            <div class="section" id="webgl-section">
+                <div class="section-title">WEBGL FINGERPRINT</div>
+                <div id="webgl-data"></div>
+            </div>
+            
+            <div class="section" id="audio-section">
+                <div class="section-title">AUDIO FINGERPRINT</div>
+                <div id="audio-data"></div>
+            </div>
+            
+            <div class="section" id="tracking-section">
+                <div class="section-title">TRACKING CAPABILITIES</div>
+                <div id="tracking-data"></div>
+            </div>
+            
+            <!-- ADVANCED MODE SECTIONS -->
+            <div class="section advanced-only" id="webrtc-section">
+                <div class="section-title">🔴 WEBRTC IP LEAK</div>
+                <div id="webrtc-data"></div>
+            </div>
+            
+            <div class="section advanced-only" id="speech-section">
+                <div class="section-title">🔴 SPEECH SYNTHESIS VOICES</div>
+                <div id="speech-data"></div>
+            </div>
+            
+            <div class="section advanced-only" id="media-section">
+                <div class="section-title">🔴 MEDIA DEVICES</div>
+                <div id="media-data"></div>
+            </div>
+            
+            <div class="section advanced-only" id="battery-section">
+                <div class="section-title">🔴 BATTERY STATUS</div>
+                <div id="battery-data"></div>
+            </div>
+            
+            <div class="section advanced-only" id="sensors-section">
+                <div class="section-title">🔴 MOTION SENSORS</div>
+                <div id="sensors-data"></div>
+            </div>
+            
+            <div class="section advanced-only" id="timing-section">
+                <div class="section-title">🔴 TIMING ANALYSIS</div>
+                <div id="timing-data"></div>
+            </div>
+            
+            <div class="recommendations" id="recommendations-section">
+                <h3>✓ RECOMMENDATIONS</h3>
+                <ul id="recommendations-list">
+                    <li>Use Firefox with privacy.resistFingerprinting enabled</li>
+                    <li>Use Tor Browser for maximum anonymity</li>
+                    <li>Use browser extensions like CanvasBlocker</li>
+                    <li>Disable WebRTC in browser settings</li>
+                    <li>Use a VPN to hide your IP (but fingerprint still visible)</li>
+                </ul>
+            </div>
+            
+            <div class="tor-detected" id="tor-detected" style="display:none; background: rgba(0, 100, 50, 0.3); border-left: 4px solid #00ff88; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0;">
+                <h3 style="color: #00ff88; margin-bottom: 10px;">🧅 TOR BROWSER DETECTED</h3>
+                <p style="color: #00ff88;">You're using Tor Browser. Your fingerprint is intentionally blended with other Tor users for anonymity. The exposure score above reflects what sites can see, but Tor makes you look like millions of other Tor users.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p><span class="footer-brand">XORD Intelligence</span> — Open Source Privacy Tools</p>
+            <p class="footer-text">This scan runs 100% locally. No data is transmitted.</p>
+            <p class="footer-text">To go deeper into the architecture of exposure, ask around for The Protocol. It's not listed.</p>
+        </footer>
+    </div>
+    
+    <canvas id="canvas" width="200" height="50"></canvas>
+
+    <script>
+        let currentMode = 'basic';
+        
+        function setMode(mode) {
+            currentMode = mode;
+            
+            document.getElementById('basicModeBtn').classList.toggle('active', mode === 'basic');
+            document.getElementById('advancedModeBtn').classList.toggle('active', mode === 'advanced');
+            document.getElementById('deepNakedBanner').style.display = mode === 'advanced' ? 'block' : 'none';
+            
+            const btn = document.getElementById('startBtn');
+            if (mode === 'advanced') {
+                btn.textContent = 'DEEP SCAN MY EXPOSURE';
+                btn.classList.add('advanced-scan');
+            } else {
+                btn.textContent = 'SCAN MY EXPOSURE';
+                btn.classList.remove('advanced-scan');
+            }
+            
+            document.querySelectorAll('.advanced-only').forEach(el => {
+                el.style.display = mode === 'advanced' ? 'block' : 'none';
+            });
+        }
+        
+        // =====================================================================
+        // BASIC FINGERPRINTING FUNCTIONS
+        // =====================================================================
+        
+        async function getPublicIP() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                return await response.json();
+            } catch (e) {
+                try {
+                    const response2 = await fetch('https://api.ipify.org?format=json');
+                    const data2 = await response2.json();
+                    return { ip: data2.ip, city: 'Unknown', country_name: 'Unknown', org: 'Unknown' };
+                } catch (e2) {
+                    return { ip: 'Blocked/VPN', city: 'Unknown', country_name: 'Unknown', org: 'Unknown' };
+                }
+            }
+        }
+        
+        function getBrowserInfo() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                languages: navigator.languages ? navigator.languages.join(', ') : navigator.language,
+                cookiesEnabled: navigator.cookieEnabled,
+                doNotTrack: navigator.doNotTrack || 'Not set',
+                vendor: navigator.vendor || 'Not available',
+                hardwareConcurrency: navigator.hardwareConcurrency || 'Not available',
+                deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Not available',
+                maxTouchPoints: navigator.maxTouchPoints || 0,
+                pdfViewerEnabled: navigator.pdfViewerEnabled || false,
+                webdriver: navigator.webdriver || false
+            };
+        }
+        
+        function getScreenInfo() {
+            return {
+                width: screen.width,
+                height: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth,
+                pixelRatio: window.devicePixelRatio
+            };
+        }
+        
+        function getTimezoneInfo() {
+            const date = new Date();
+            return {
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timezoneOffset: date.getTimezoneOffset(),
+                locale: Intl.DateTimeFormat().resolvedOptions().locale
+            };
+        }
+        
+        function getCanvasFingerprint() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(125, 1, 62, 20);
+            ctx.fillStyle = '#069';
+            ctx.fillText('XORD NakedOnline', 2, 15);
+            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+            ctx.fillText('Fingerprint Test', 4, 35);
+            
+            const dataURL = canvas.toDataURL();
+            let hash = 0;
+            for (let i = 0; i < dataURL.length; i++) {
+                const char = dataURL.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            return {
+                hash: Math.abs(hash).toString(16),
+                dataLength: dataURL.length
+            };
+        }
+        
+        function getWebGLInfo() {
+            const canvas = document.createElement('canvas');
+            let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            if (!gl) return { supported: false };
+            
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            
+            let vendor = gl.getParameter(gl.VENDOR);
+            let renderer = gl.getParameter(gl.RENDERER);
+            
+            if (debugInfo) {
+                vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            }
+            
+            const params = [
+                gl.getParameter(gl.VERSION),
+                gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+                gl.getParameter(gl.MAX_TEXTURE_SIZE),
+                gl.getParameter(gl.MAX_VERTEX_ATTRIBS)
+            ].join('~');
+            
+            let hash = 0;
+            for (let i = 0; i < params.length; i++) {
+                hash = ((hash << 5) - hash) + params.charCodeAt(i);
+                hash = hash & hash;
+            }
+            
+            return {
+                supported: true,
+                vendor: vendor,
+                renderer: renderer,
+                version: gl.getParameter(gl.VERSION),
+                maxTextureSize: gl.getParameter(gl.MAX_TEXTURE_SIZE),
+                hash: Math.abs(hash).toString(16)
+            };
+        }
+        
+        async function getAudioFingerprint() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') await audioCtx.resume();
+                
+                const oscillator = audioCtx.createOscillator();
+                const analyser = audioCtx.createAnalyser();
+                const gainNode = audioCtx.createGain();
+                const scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1);
+                
+                gainNode.gain.value = 0;
+                oscillator.type = 'triangle';
+                oscillator.frequency.value = 10000;
+                
+                oscillator.connect(analyser);
+                analyser.connect(scriptProcessor);
+                scriptProcessor.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start(0);
+                
+                const fingerprint = await new Promise((resolve) => {
+                    const timeout = setTimeout(() => resolve('timeout'), 2000);
+                    scriptProcessor.onaudioprocess = function(event) {
+                        clearTimeout(timeout);
+                        const output = event.inputBuffer.getChannelData(0);
+                        let sum = 0;
+                        for (let i = 0; i < output.length; i++) sum += Math.abs(output[i]);
+                        oscillator.stop();
+                        audioCtx.close();
+                        resolve(sum.toString().slice(0, 20));
+                    };
+                });
+                
+                return { supported: true, fingerprint: fingerprint, sampleRate: audioCtx.sampleRate || 'Unknown' };
+            } catch (e) {
+                return { supported: false, fingerprint: 'Blocked', error: e.message };
+            }
+        }
+        
+        function getFonts() {
+            const baseFonts = ['monospace', 'sans-serif', 'serif'];
+            const testFonts = [
+                'Arial', 'Arial Black', 'Calibri', 'Cambria', 'Comic Sans MS',
+                'Consolas', 'Courier New', 'Georgia', 'Helvetica', 'Impact',
+                'Lucida Console', 'Palatino Linotype', 'Segoe UI', 'Tahoma',
+                'Times New Roman', 'Trebuchet MS', 'Verdana', 'Wingdings'
+            ];
+            
+            const testString = 'mmmmmmmmmmlli';
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const detected = [];
+            const baseWidths = baseFonts.map(f => {
+                ctx.font = '72px ' + f;
+                return ctx.measureText(testString).width;
+            });
+            
+            testFonts.forEach(font => {
+                for (let i = 0; i < baseFonts.length; i++) {
+                    ctx.font = '72px ' + font + ',' + baseFonts[i];
+                    if (ctx.measureText(testString).width !== baseWidths[i]) {
+                        detected.push(font);
+                        break;
+                    }
+                }
+            });
+            
+            return detected;
+        }
+        
+        function getStorageInfo() {
+            let localStorage = false, sessionStorage = false, indexedDB = false;
+            
+            try { localStorage = !!window.localStorage; window.localStorage.setItem('test', 'test'); window.localStorage.removeItem('test'); } catch (e) {}
+            try { sessionStorage = !!window.sessionStorage; } catch (e) {}
+            try { indexedDB = !!window.indexedDB; } catch (e) {}
+            
+            return { localStorage, sessionStorage, indexedDB, cookies: navigator.cookieEnabled };
+        }
+        
+        function getPlugins() {
+            const plugins = [];
+            for (let i = 0; i < navigator.plugins.length; i++) {
+                plugins.push(navigator.plugins[i].name);
+            }
+            return plugins;
+        }
+        
+        // =====================================================================
+        // ADVANCED FINGERPRINTING FUNCTIONS (DEEP NAKED MODE)
+        // =====================================================================
+        
+        async function getWebRTCLeak() {
+            return new Promise((resolve) => {
+                const ips = [];
+                
+                try {
+                    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+                    pc.createDataChannel('');
+                    
+                    pc.onicecandidate = (event) => {
+                        if (!event.candidate) {
+                            pc.close();
+                            resolve({ leaked: ips.length > 0, ips: ips });
+                            return;
+                        }
+                        
+                        const candidate = event.candidate.candidate;
+                        const ipMatch = candidate.match(/(\d{1,3}\.){3}\d{1,3}|([a-f0-9]{1,4}:){7}[a-f0-9]{1,4}/gi);
+                        if (ipMatch) {
+                            ipMatch.forEach(ip => {
+                                if (!ips.includes(ip) && !ip.startsWith('0.')) {
+                                    ips.push(ip);
+                                }
+                            });
+                        }
+                    };
+                    
+                    pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                    
+                    setTimeout(() => {
+                        pc.close();
+                        resolve({ leaked: ips.length > 0, ips: ips });
+                    }, 3000);
+                    
+                } catch (e) {
+                    resolve({ leaked: false, ips: [], error: e.message });
+                }
+            });
+        }
+        
+        function getSpeechVoices() {
+            return new Promise((resolve) => {
+                let voices = speechSynthesis.getVoices();
+                
+                if (voices.length > 0) {
+                    resolve(voices.map(v => ({ name: v.name, lang: v.lang, local: v.localService })));
+                    return;
+                }
+                
+                speechSynthesis.onvoiceschanged = () => {
+                    voices = speechSynthesis.getVoices();
+                    resolve(voices.map(v => ({ name: v.name, lang: v.lang, local: v.localService })));
+                };
+                
+                setTimeout(() => resolve([]), 2000);
+            });
+        }
+        
+        async function getMediaDevices() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                return {
+                    supported: true,
+                    devices: devices.map(d => ({
+                        kind: d.kind,
+                        label: d.label || 'Label hidden (no permission)',
+                        deviceId: d.deviceId ? d.deviceId.slice(0, 16) + '...' : 'N/A'
+                    }))
+                };
+            } catch (e) {
+                return { supported: false, error: e.message };
+            }
+        }
+        
+        async function getBatteryStatus() {
+            try {
+                if (!navigator.getBattery) {
+                    return { supported: false, reason: 'API not available' };
+                }
+                const battery = await navigator.getBattery();
+                return {
+                    supported: true,
+                    charging: battery.charging,
+                    level: (battery.level * 100).toFixed(0) + '%',
+                    chargingTime: battery.chargingTime === Infinity ? 'N/A' : battery.chargingTime + 's',
+                    dischargingTime: battery.dischargingTime === Infinity ? 'N/A' : battery.dischargingTime + 's'
+                };
+            } catch (e) {
+                return { supported: false, reason: e.message };
+            }
+        }
+        
+        function getMotionSensors() {
+            return {
+                accelerometer: 'Accelerometer' in window,
+                gyroscope: 'Gyroscope' in window,
+                magnetometer: 'Magnetometer' in window,
+                absoluteOrientation: 'AbsoluteOrientationSensor' in window,
+                relativeOrientation: 'RelativeOrientationSensor' in window,
+                linearAcceleration: 'LinearAccelerationSensor' in window
+            };
+        }
+        
+        function getTimingAnalysis() {
+            const timing = performance.timing || {};
+            const now = performance.now();
+            
+            const start = performance.now();
+            let sum = 0;
+            for (let i = 0; i < 100000; i++) {
+                sum += Math.sqrt(i);
+            }
+            const duration = performance.now() - start;
+            
+            return {
+                performanceNow: now,
+                calculationTime: duration.toFixed(4) + 'ms',
+                timeOrigin: performance.timeOrigin,
+                navigationStart: timing.navigationStart || 'N/A'
+            };
+        }
+        
+        function detectTorBrowser(data) {
+            const ua = navigator.userAgent.toLowerCase();
+            const isFirefox = ua.includes('firefox');
+            const timezoneOffset = data.timezone.timezoneOffset;
+            const screenWidth = data.screen.width;
+            const screenHeight = data.screen.height;
+            const plugins = data.plugins;
+            
+            // Tor indicators
+            let torScore = 0;
+            
+            // Tor uses Firefox
+            if (isFirefox) torScore += 1;
+            
+            // Tor sets timezone to UTC (offset 0)
+            if (timezoneOffset === 0) torScore += 2;
+            
+            // Tor uses letterboxing (rounded screen sizes)
+            if (screenWidth % 100 === 0 && screenHeight % 100 === 0) torScore += 1;
+            if (screenWidth === 1000 || screenWidth === 1400 || screenWidth === 1200) torScore += 1;
+            
+            // Tor has no plugins
+            if (plugins.length === 0) torScore += 1;
+            
+            // Check for Tor-specific user agent patterns
+            if (ua.includes('windows nt 10.0') && isFirefox) torScore += 1;
+            
+            return torScore >= 4;
+        }
+        
+        function updateRecommendations(isTor, data) {
+            const recList = document.getElementById('recommendations-list');
+            const torDetected = document.getElementById('tor-detected');
+            
+            if (isTor) {
+                torDetected.style.display = 'block';
+                recList.innerHTML = `
+                    <li>You're already using Tor - excellent choice!</li>
+                    <li>Keep JavaScript disabled when possible for even more privacy</li>
+                    <li>Don't maximize your browser window (defeats letterboxing)</li>
+                    <li>Avoid logging into personal accounts while using Tor</li>
+                    <li>Use bridges if Tor is blocked in your region</li>
+                `;
+            } else {
+                torDetected.style.display = 'none';
+                
+                let recommendations = [];
+                
+                // Check specific vulnerabilities and recommend accordingly
+                if (data.browser.doNotTrack !== '1') {
+                    recommendations.push('Enable "Do Not Track" in browser settings');
+                }
+                
+                if (data.storage.localStorage) {
+                    recommendations.push('Consider disabling LocalStorage or using auto-clear');
+                }
+                
+                if (data.webgl && data.webgl.supported) {
+                    recommendations.push('Use WebGL blocker extension to hide GPU fingerprint');
+                }
+                
+                recommendations.push('Use Firefox with privacy.resistFingerprinting enabled');
+                recommendations.push('Use Tor Browser for maximum anonymity');
+                recommendations.push('Use browser extensions like CanvasBlocker');
+                recommendations.push('Disable WebRTC in browser settings');
+                recommendations.push('Use a VPN to hide your IP (but fingerprint still visible)');
+                
+                // Limit to 6 recommendations
+                recommendations = recommendations.slice(0, 6);
+                
+                recList.innerHTML = recommendations.map(r => `<li>${r}</li>`).join('');
+            }
+        }
+        
+        // =====================================================================
+        // DISPLAY FUNCTIONS
+        // =====================================================================
+        
+        function addItem(container, label, value, className = '') {
+            const item = document.createElement('div');
+            item.className = 'item';
+            
+            const labelEl = document.createElement('div');
+            labelEl.className = 'item-label';
+            labelEl.textContent = label;
+            
+            const valueEl = document.createElement('div');
+            valueEl.className = 'item-value ' + className;
+            valueEl.textContent = value;
+            
+            item.appendChild(labelEl);
+            item.appendChild(valueEl);
+            container.appendChild(item);
+        }
+        
+        function calculateScore(data, isAdvanced) {
+            let bits = 0;
+            
+            bits += 10;
+            bits += 4;
+            bits += 4;
+            bits += 3;
+            bits += 10;
+            if (data.webgl.supported) bits += 8;
+            if (data.audio.supported) bits += 6;
+            bits += Math.min(data.fonts.length / 3, 6);
+            if (data.browser.hardwareConcurrency !== 'Not available') bits += 3;
+            if (data.browser.deviceMemory !== 'Not available') bits += 3;
+            
+            if (isAdvanced) {
+                if (data.webrtc && data.webrtc.leaked) bits += 8;
+                if (data.voices && data.voices.length > 0) bits += 6;
+                if (data.mediaDevices && data.mediaDevices.supported) bits += 4;
+                if (data.battery && data.battery.supported) bits += 3;
+                bits += 2;
+            }
+            
+            return Math.round(bits);
+        }
+        
+        // =====================================================================
+        // MAIN SCAN
+        // =====================================================================
+        
+        async function runScan() {
+            const btn = document.getElementById('startBtn');
+            btn.disabled = true;
+            btn.textContent = 'SCANNING...';
+            
+            await new Promise(r => setTimeout(r, 100));
+            
+            const isAdvanced = currentMode === 'advanced';
+            
+            const data = {
+                ip: await getPublicIP(),
+                browser: getBrowserInfo(),
+                screen: getScreenInfo(),
+                timezone: getTimezoneInfo(),
+                canvas: getCanvasFingerprint(),
+                webgl: getWebGLInfo(),
+                audio: await getAudioFingerprint(),
+                fonts: getFonts(),
+                storage: getStorageInfo(),
+                plugins: getPlugins()
+            };
+            
+            if (isAdvanced) {
+                data.webrtc = await getWebRTCLeak();
+                data.voices = await getSpeechVoices();
+                data.mediaDevices = await getMediaDevices();
+                data.battery = await getBatteryStatus();
+                data.sensors = getMotionSensors();
+                data.timing = getTimingAnalysis();
+            }
+            
+            const bits = calculateScore(data, isAdvanced);
+            const uniqueness = Math.pow(2, bits);
+            
+            document.getElementById('score').textContent = bits + ' bits';
+            
+            let scoreColor, scoreDesc;
+            if (bits >= 25) {
+                scoreColor = '#ff4444';
+                scoreDesc = 'EXTREMELY UNIQUE — Trivially trackable';
+            } else if (bits >= 18) {
+                scoreColor = '#ff4444';
+                scoreDesc = 'HIGHLY UNIQUE — Easily trackable';
+            } else if (bits >= 12) {
+                scoreColor = '#ffaa00';
+                scoreDesc = 'MODERATELY UNIQUE — Some tracking risk';
+            } else {
+                scoreColor = '#00ff88';
+                scoreDesc = 'LOW UNIQUENESS — Better than average';
+            }
+            
+            document.getElementById('score').style.color = scoreColor;
+            document.getElementById('score-desc').textContent = scoreDesc;
+            document.getElementById('score-desc').style.color = scoreColor;
+            document.getElementById('uniqueness').textContent = 
+                'Your fingerprint is approximately 1 in ' + uniqueness.toLocaleString() + ' unique';
+            
+            document.querySelectorAll('.section > div:not(.section-title)').forEach(el => el.innerHTML = '');
+            
+            const networkDiv = document.getElementById('network-data');
+            addItem(networkDiv, 'Public IP', data.ip.ip, 'danger');
+            addItem(networkDiv, 'City', data.ip.city || 'Unknown', 'warning');
+            addItem(networkDiv, 'Country', data.ip.country_name || 'Unknown', 'warning');
+            addItem(networkDiv, 'ISP', data.ip.org || 'Unknown', 'warning');
+            
+            const browserDiv = document.getElementById('browser-data');
+            addItem(browserDiv, 'User Agent', data.browser.userAgent, 'danger');
+            addItem(browserDiv, 'Platform', data.browser.platform, 'warning');
+            addItem(browserDiv, 'Language', data.browser.languages, 'warning');
+            addItem(browserDiv, 'Timezone', data.timezone.timezone, 'warning');
+            addItem(browserDiv, 'Do Not Track', data.browser.doNotTrack, data.browser.doNotTrack === '1' ? 'safe' : 'warning');
+            addItem(browserDiv, 'Cookies Enabled', data.browser.cookiesEnabled ? 'Yes' : 'No', 'warning');
+            addItem(browserDiv, 'WebDriver', data.browser.webdriver ? 'Detected (bot flag!)' : 'No', data.browser.webdriver ? 'danger' : 'safe');
+            addItem(browserDiv, 'Plugins', data.plugins.length > 0 ? data.plugins.join(', ') : 'None', '');
+            
+            const hardwareDiv = document.getElementById('hardware-data');
+            addItem(hardwareDiv, 'Screen Resolution', data.screen.width + 'x' + data.screen.height, 'warning');
+            addItem(hardwareDiv, 'Available Screen', data.screen.availWidth + 'x' + data.screen.availHeight, '');
+            addItem(hardwareDiv, 'Color Depth', data.screen.colorDepth + ' bit', '');
+            addItem(hardwareDiv, 'Pixel Ratio', data.screen.pixelRatio, '');
+            addItem(hardwareDiv, 'CPU Cores', data.browser.hardwareConcurrency, 'warning');
+            addItem(hardwareDiv, 'Device Memory', data.browser.deviceMemory, 'warning');
+            addItem(hardwareDiv, 'Touch Points', data.browser.maxTouchPoints, '');
+            
+            const canvasDiv = document.getElementById('canvas-data');
+            addItem(canvasDiv, 'Canvas Hash', data.canvas.hash, 'danger');
+            addItem(canvasDiv, 'Data Length', data.canvas.dataLength + ' bytes', '');
+            
+            const webglDiv = document.getElementById('webgl-data');
+            if (data.webgl.supported) {
+                addItem(webglDiv, 'WebGL Vendor', data.webgl.vendor, 'danger');
+                addItem(webglDiv, 'WebGL Renderer', data.webgl.renderer, 'danger');
+                addItem(webglDiv, 'WebGL Version', data.webgl.version, '');
+                addItem(webglDiv, 'WebGL Hash', data.webgl.hash, 'warning');
+            } else {
+                addItem(webglDiv, 'WebGL', 'Not supported', 'safe');
+            }
+            
+            const audioDiv = document.getElementById('audio-data');
+            if (data.audio.supported) {
+                addItem(audioDiv, 'Audio Fingerprint', data.audio.fingerprint, 'danger');
+                addItem(audioDiv, 'Sample Rate', data.audio.sampleRate + ' Hz', '');
+            } else {
+                addItem(audioDiv, 'Audio Context', 'Blocked/Not supported', 'safe');
+            }
+            
+            const trackingDiv = document.getElementById('tracking-data');
+            addItem(trackingDiv, 'Local Storage', data.storage.localStorage ? 'Available' : 'Blocked', data.storage.localStorage ? 'warning' : 'safe');
+            addItem(trackingDiv, 'Session Storage', data.storage.sessionStorage ? 'Available' : 'Blocked', data.storage.sessionStorage ? 'warning' : 'safe');
+            addItem(trackingDiv, 'IndexedDB', data.storage.indexedDB ? 'Available' : 'Blocked', data.storage.indexedDB ? 'warning' : 'safe');
+            addItem(trackingDiv, 'Fonts Detected', data.fonts.length + ' fonts', 'warning');
+            addItem(trackingDiv, 'Fonts List', data.fonts.join(', ') || 'None detected', '');
+            
+            if (isAdvanced) {
+                const webrtcDiv = document.getElementById('webrtc-data');
+                if (data.webrtc.leaked) {
+                    addItem(webrtcDiv, 'LEAK DETECTED', 'YES - Your local IPs are exposed!', 'danger');
+                    data.webrtc.ips.forEach((ip, i) => {
+                        addItem(webrtcDiv, 'Leaked IP #' + (i+1), ip, 'danger');
+                    });
+                } else {
+                    addItem(webrtcDiv, 'WebRTC Leak', 'No leak detected or WebRTC disabled', 'safe');
+                }
+                
+                const speechDiv = document.getElementById('speech-data');
+                if (data.voices.length > 0) {
+                    addItem(speechDiv, 'Voices Found', data.voices.length + ' voices', 'danger');
+                    addItem(speechDiv, 'Voice List', data.voices.slice(0, 10).map(v => v.name).join(', ') + (data.voices.length > 10 ? '...' : ''), 'warning');
+                } else {
+                    addItem(speechDiv, 'Speech Synthesis', 'No voices detected', 'safe');
+                }
+                
+                const mediaDiv = document.getElementById('media-data');
+                if (data.mediaDevices.supported) {
+                    const cams = data.mediaDevices.devices.filter(d => d.kind === 'videoinput').length;
+                    const mics = data.mediaDevices.devices.filter(d => d.kind === 'audioinput').length;
+                    const speakers = data.mediaDevices.devices.filter(d => d.kind === 'audiooutput').length;
+                    addItem(mediaDiv, 'Cameras', cams, cams > 0 ? 'warning' : '');
+                    addItem(mediaDiv, 'Microphones', mics, mics > 0 ? 'warning' : '');
+                    addItem(mediaDiv, 'Speakers', speakers, '');
+                } else {
+                    addItem(mediaDiv, 'Media Devices', 'Not accessible', 'safe');
+                }
+                
+                const batteryDiv = document.getElementById('battery-data');
+                if (data.battery.supported) {
+                    addItem(batteryDiv, 'Battery Level', data.battery.level, 'warning');
+                    addItem(batteryDiv, 'Charging', data.battery.charging ? 'Yes' : 'No', '');
+                } else {
+                    addItem(batteryDiv, 'Battery API', data.battery.reason || 'Not supported', 'safe');
+                }
+                
+                const sensorsDiv = document.getElementById('sensors-data');
+                const sensors = data.sensors;
+                addItem(sensorsDiv, 'Accelerometer', sensors.accelerometer ? 'Available' : 'No', sensors.accelerometer ? 'warning' : 'safe');
+                addItem(sensorsDiv, 'Gyroscope', sensors.gyroscope ? 'Available' : 'No', sensors.gyroscope ? 'warning' : 'safe');
+                addItem(sensorsDiv, 'Magnetometer', sensors.magnetometer ? 'Available' : 'No', sensors.magnetometer ? 'warning' : 'safe');
+                
+                const timingDiv = document.getElementById('timing-data');
+                addItem(timingDiv, 'Calculation Speed', data.timing.calculationTime, 'warning');
+                addItem(timingDiv, 'Time Origin', Math.round(data.timing.timeOrigin), '');
+            }
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Detect Tor and update recommendations
+            const isTor = detectTorBrowser(data);
+            updateRecommendations(isTor, data);
+            
+            btn.disabled = false;
+            btn.textContent = currentMode === 'advanced' ? 'DEEP SCAN MY EXPOSURE' : 'SCAN MY EXPOSURE';
+        }
+    </script>
+</body>
+</html>
