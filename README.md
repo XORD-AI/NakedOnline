@@ -34,7 +34,7 @@ The higher the score, the more uniquely trackable you are.
 
 ## Live Demo
 
-https://xord.io/intelligence/naked-online.html
+[https://xord.io/intelligence/naked-online.html](https://xord.io/intelligence_r66h32d54/naked-online.html)
 
 ---
 
